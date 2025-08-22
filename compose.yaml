@@ -1,0 +1,10 @@
+services:
+  chameleon-game:
+    build: .
+    container_name: chameleon-game
+    networks:
+      - website-network
+
+networks:
+  website-network:
+    external: true
