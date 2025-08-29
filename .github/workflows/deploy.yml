@@ -33,6 +33,9 @@ jobs:
           echo "Listing home directory:"
           ls -la ~
 
+          mkdir -p repo
+          cd repo
+
           if [ -f docker-compose.yml ]; then
             docker-compose down
           fi
