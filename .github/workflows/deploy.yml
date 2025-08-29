@@ -19,3 +19,12 @@ jobs:
         mkdir -p ~/.ssh
         echo "$SSH_KEY" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan -p "$PORT" -H "$SERVER" >> ~/.ssh/known_hosts
+
+    - name: Update repository
+      env:
+        SSH_KEY: ${{ secrets.DEPLOY_KEY }}
+        SERVER: ${{ secrets.SERVER_IP }}
+        PORT: ${{ secrets.SSH_PORT }}
+        CICD_USER: ${{ secrets.SERVER_USER }}
+      run: |
+        ssh -i ~/.ssh/id_ed25519 -p "$PORT" -o StrictHostKeyChecking=yes "$CICD_USER"@"$SERVER" << 'EOF'
