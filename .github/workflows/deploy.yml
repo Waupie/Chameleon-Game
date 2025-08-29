@@ -23,11 +23,11 @@ jobs:
     - name: Update repository
       env:
         SSH_KEY: ${{ secrets.DEPLOY_KEY }}
-        SERVER: ${{ secrets.SERVER_IP }}
+        ORIGIN: ${{ secrets.ORIGIN }}
         PORT: ${{ secrets.SSH_PORT }}
-        CICD_USER: ${{ secrets.SERVER_USER }}
+        USER: ${{ secrets.USER }}
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 "$CICD_USER@$SERVER" -p "$PORT" '
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 "$USER"@"$ORIGIN" -p "$PORT" '
           echo "Current directory: $(pwd)"
           echo "Listing home directory:"
           ls -la ~
