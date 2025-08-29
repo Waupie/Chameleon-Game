@@ -42,11 +42,9 @@ jobs:
             git remote add origin git@github.com:FrankenBunny/chameleon_game.git
           fi
 
-          # Update repository
           git fetch origin
           git reset --hard origin/main
 
-          # Start containers again
           if [ -f docker-compose.yml ]; then
             docker-compose up -d --build
           fi
