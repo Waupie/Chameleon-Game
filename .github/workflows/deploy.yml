@@ -21,15 +21,35 @@ jobs:
         echo "Adding $SERVER:$PORT to known_hosts..."
         ssh-keyscan -p "$PORT" -H "$SERVER" >> ~/.ssh/known_hosts
 
-    - name: Run remote commands
+    - name: Clone repository
       env:
         SERVER: ${{ secrets.ORIGIN }}
         PORT: ${{ secrets.SSH_PORT }}
         USER: ${{ secrets.USER }}
       run: |
         ssh -o StrictHostKeyChecking=yes -i ~/.ssh/id_ed25519 -p "$PORT" "$USER@$SERVER" '
+          set -e
           echo "Current directory: $(pwd)"
           echo "Listing home directory:"
           ls -la ~
-          # 👉 Your deploy commands go here
+
+          if [ -f docker-compose.yml ]; then
+            docker-compose down
+          fi
+
+          if [ ! -d "$APP_DIR/.git" ]; then
+            git init
+            git remote add origin git@github.com:FrankenBunny/chameleon_game.git
+          fi
+
+          # Update repository
+          git fetch origin
+          git reset --hard origin/main
+
+          # Start containers again
+          if [ -f docker-compose.yml ]; then
+            docker-compose up -d --build
+          fi
+
+          echo "Deployment finished successfully."
         '
