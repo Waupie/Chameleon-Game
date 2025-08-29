@@ -27,4 +27,8 @@ jobs:
         PORT: ${{ secrets.SSH_PORT }}
         CICD_USER: ${{ secrets.SERVER_USER }}
       run: |
-        ssh -i ~/.ssh/id_ed25519 -p "$PORT" -o StrictHostKeyChecking=yes "$CICD_USER"@"$SERVER" << 'EOF'
+        ssh -i ~/.ssh/id_ed25519 -p "$PORT" -o StrictHostKeyChecking=yes "$CICD_USER"@"$SERVER" '
+        echo "Current directory: $(pwd)"
+        echo "Listing home directory:"
+        ls -la ~
+        '
