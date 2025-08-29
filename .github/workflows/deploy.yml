@@ -13,7 +13,10 @@ jobs:
         clean: true
     
     - name: Show current user
-      run: whoami
+      run: |
+        whoami
+        ls -ld /home/server/apps/chameleon-game
+
 
     - name: Deploy app
       run: |
