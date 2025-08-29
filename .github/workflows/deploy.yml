@@ -1,0 +1,24 @@
+name: Deploy to server
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, chameleon]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        clean: true
+
+    - name: Deploy app
+      run: |
+        APP_DIR="/home/server/apps/chameleon-game"
+        cd $APP_DIR || exit 1
+
+        echo "🧹 Cleaning up previous containers for this app"
+        docker compose -f compose.deploy.yaml down --volumes --remove-orphans
+
+        echo "📦 Building and starting containers"
+        docker compose -f compose.deploy.yaml up -d --build
