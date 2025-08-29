@@ -12,9 +12,10 @@ jobs:
     
     - name: Set up SSH key
       env:
-        SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_KEY: ${{ secrets.DEPLOY_KEY }}
         SERVER: ${{ secrets.SERVER_IP }}
+        PORT: ${{ secrets.SSH_PORT }}
       run: |
         mkdir -p ~/.ssh
         echo "$SSH_KEY" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan -H "$SERVER" >> ~/.ssh/known_hosts
+        ssh-keyscan -p "$PORT" -H "$SERVER" >> ~/.ssh/known_hosts
