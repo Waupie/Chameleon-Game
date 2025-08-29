@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     
@@ -18,17 +18,18 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         echo "$SSH_KEY" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+        echo "Adding $SERVER:$PORT to known_hosts..."
         ssh-keyscan -p "$PORT" -H "$SERVER" >> ~/.ssh/known_hosts
 
-    - name: Update repository
+    - name: Run remote commands
       env:
-        SSH_KEY: ${{ secrets.DEPLOY_KEY }}
-        ORIGIN: ${{ secrets.ORIGIN }}
+        SERVER: ${{ secrets.ORIGIN }}
         PORT: ${{ secrets.SSH_PORT }}
         USER: ${{ secrets.USER }}
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 "$USER"@"$ORIGIN" -p "$PORT" '
+        ssh -o StrictHostKeyChecking=yes -i ~/.ssh/id_ed25519 -p "$PORT" "$USER@$SERVER" '
           echo "Current directory: $(pwd)"
           echo "Listing home directory:"
           ls -la ~
+          # 👉 Your deploy commands go here
         '
