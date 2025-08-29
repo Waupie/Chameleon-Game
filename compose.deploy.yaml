@@ -1,6 +1,7 @@
 services:
   chameleon-game:
     build: .
+    dockerfile: Dockerfile.deploy
     container_name: chameleon-game
     networks:
       - website-network
