@@ -6,25 +6,15 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, chameleon]
+    runs-on: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
-      with:
-        clean: true
     
-    - name: Show current user
+    - name: Set up SSH key
+      env:
+        SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SERVER: ${{ secrets.SERVER_IP }}
       run: |
-        whoami
-        ls -ld /home/server/apps/chameleon-game
-
-
-    - name: Deploy app
-      run: |
-        APP_DIR="/home/server/apps/chameleon-game"
-        cd $APP_DIR || exit 1
-
-        echo "🧹 Cleaning up previous containers for this app"
-        docker compose -f compose.deploy.yaml down --volumes --remove-orphans
-
-        echo "📦 Building and starting containers"
-        docker compose -f compose.deploy.yaml up -d --build
+        mkdir -p ~/.ssh
+        echo "$SSH_KEY" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan -H "$SERVER" >> ~/.ssh/known_hosts
