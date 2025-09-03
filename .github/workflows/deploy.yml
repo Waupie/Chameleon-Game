@@ -26,12 +26,16 @@ jobs:
         SERVER: ${{ secrets.ORIGIN }}
         PORT: ${{ secrets.SSH_PORT }}
         USER: ${{ secrets.USER }}
+        DEPLOY_KEY: ${{ secrets.GITHUB_RO_KEY }}
       run: |
         ssh -o StrictHostKeyChecking=yes -i ~/.ssh/id_ed25519 -p "$PORT" "$USER@$SERVER" '
           set -e
           echo "Current directory: $(pwd)"
           echo "Listing home directory:"
           ls -la ~
+
+          echo "$DEPLOY_KEY" > ~/.ssh/github_deploy_key
+          chmod 600 ~/.ssh/github_deploy_key
 
           mkdir -p repo
           cd repo
@@ -42,8 +46,11 @@ jobs:
 
           if [ ! -d "$APP_DIR/.git" ]; then
             git init
-            git remote add origin git@github.com:FrankenBunny/chameleon_game.git
+            git remote add origin git@github.com:Waupie/Chameleon-Game.git
           fi
+
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_key -o StrictHostKeyChecking=no" git fetch origin
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_key -o StrictHostKeyChecking=no" git reset --hard origin/main
 
           git fetch origin
           git reset --hard origin/main
