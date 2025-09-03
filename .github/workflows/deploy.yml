@@ -26,7 +26,7 @@ jobs:
         SERVER: ${{ secrets.ORIGIN }}
         PORT: ${{ secrets.SSH_PORT }}
         USER: ${{ secrets.USER }}
-        DEPLOY_KEY: ${{ secrets.GITHUB_RO_KEY }}
+        DEPLOY_KEY: ${{ secrets.RO_KEY }}
       run: |
         ssh -o StrictHostKeyChecking=yes -i ~/.ssh/id_ed25519 -p "$PORT" "$USER@$SERVER" '
           set -e
