@@ -1,0 +1,18 @@
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: chameleon-dev
+    command: "npm run dev -- --host"
+    ports: 
+      - "5173:5173"
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: ./app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
