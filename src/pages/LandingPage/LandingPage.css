@@ -1,0 +1,62 @@
+.landing-title {
+  margin-bottom: 1rem;
+}
+
+.landing {
+  display: flex;
+  flex-direction: column;
+  gap: min(2rem, 8%);
+  margin: 0;
+  padding: 0;
+}
+
+.landing-item {
+  flex: 1;
+  overflow: visible;
+  margin: 0.15rem;
+}
+
+.landing-item > button {
+  width: 100%;
+}
+
+.join-input-wrapper {
+  display: flex;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.join-input-wrapper.show {
+  max-height: 80px;
+  opacity: 1;
+  padding-top: 0.25rem;
+  gap: 0.3rem;
+}
+
+.join-input-wrapper.show > input {
+  flex: 3;
+}
+
+.join-input-wrapper.show > button {
+  flex: 1;
+}
+
+.join-input {
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+}
+
+.join-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+#join-button {
+  margin-top: 0.3rem;
+}
