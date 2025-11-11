@@ -20,7 +20,7 @@
   width: 100%;
 }
 
-.join-input-wrapper {
+.join-input-wrapper, .create-input-wrapper {
   display: flex;
   max-height: 0;
   opacity: 0;
@@ -29,21 +29,31 @@
 }
 
 .join-input-wrapper.show {
+  max-height: 120px;
+  opacity: 1;
+  padding-top: 0.25rem;
+  gap: 0.3rem;
+  flex-direction: column;
+}
+
+.create-input-wrapper.show {
   max-height: 80px;
   opacity: 1;
   padding-top: 0.25rem;
   gap: 0.3rem;
 }
 
-.join-input-wrapper.show > input {
-  flex: 3;
-}
-
-.join-input-wrapper.show > button {
+.join-input-wrapper.show > input,
+.create-input-wrapper.show > input {
   flex: 1;
 }
 
-.join-input {
+.join-input-wrapper.show > button,
+.create-input-wrapper.show > button {
+  flex: 1;
+}
+
+.join-input, .create-input {
   box-sizing: border-box;
   border: none;
   width: 100%;
@@ -52,11 +62,30 @@
   border-radius: 0.5rem;
 }
 
-.join-input:focus {
+.join-input:focus, .create-input:focus {
   outline: none;
-  box-shadow: none;
+  box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.5);
 }
 
-#join-button {
+#join-button, #create-button {
   margin-top: 0.3rem;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+  border-color: transparent;
+}
+
+.error-message {
+  background-color: #dc3545;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 500;
 }
