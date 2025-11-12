@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./Lobby.css";
 import { wsService } from "../../services/WebSocketService";
 import type { Player, ChatMessage as WSChatMessage, LobbyData } from "../../services/WebSocketService";
 import Chat from "../../components/Chat";
 import type { ChatMessage } from "../../components/Chat";
+import ChoicePanel from "../../components/ChoicePanel/ChoicePanel";
 
 interface LobbyProps {
   lobbyCode: string;
@@ -48,10 +49,10 @@ function Lobby({ lobbyCode, playerName, onLeaveLobby }: LobbyProps) {
 
     // Cleanup on unmount
     return () => {
-      wsService.setOnLobbyUpdate(null);
-      wsService.setOnChatMessage(null);
-      wsService.setOnPlayerJoined(null);
-      wsService.setOnPlayerLeft(null);
+      wsService.setOnLobbyUpdate((_: LobbyData) => {});
+      wsService.setOnChatMessage((_message: WSChatMessage) => {});
+      wsService.setOnPlayerJoined((_player: Player) => {});
+      wsService.setOnPlayerLeft((_playerId: string, _playerName: string) => {});
     };
   }, []);
 
@@ -96,6 +97,8 @@ function Lobby({ lobbyCode, playerName, onLeaveLobby }: LobbyProps) {
         </div>
 
         <div className="chat-section">
+          <h2>Choices</h2>
+          <ChoicePanel />
           <h2>Chat</h2>
           <Chat 
             messages={chatMessages}

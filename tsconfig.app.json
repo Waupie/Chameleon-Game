@@ -6,20 +6,24 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types"],
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "moduleDetection": "force",
+    "resolveJsonModule": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
