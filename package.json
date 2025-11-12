@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:dev": "docker compose -f compose.dev.yaml up --build",
+    "docker:dev:detached": "docker compose -f compose.dev.yaml up --build -d",
+    "docker:stop": "docker compose -f compose.dev.yaml down",
+    "docker:logs": "docker compose -f compose.dev.yaml logs -f"
   },
   "dependencies": {
     "react": "^19.1.1",
@@ -15,8 +19,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
-    "@types/react": "^19.1.10",
-    "@types/react-dom": "^19.1.7",
+    "@types/react": "^19.2.3",
+    "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.0.0",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",

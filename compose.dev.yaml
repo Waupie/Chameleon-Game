@@ -3,18 +3,40 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.dev
-    container_name: chameleon-dev
+    container_name: chameleon-web-dev
     command: "npm run dev -- --host"
     ports: 
       - "5173:5173"
     environment:
       - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - server
     develop:
       watch:
         - action: sync
           path: ./
-          target: ./app
+          target: /app
+          ignore:
+            - node_modules/
+            - server/
+        - action: rebuild
+          path: package.json
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: chameleon-server-dev
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=development
+    develop:
+      watch:
+        - action: sync
+          path: ./server
+          target: /app
           ignore:
             - node_modules/
         - action: rebuild
-          path: package.json
+          path: server/package.json
